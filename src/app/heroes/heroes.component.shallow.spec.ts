@@ -4,6 +4,7 @@ import { NO_ERRORS_SCHEMA, Input, Component } from "@angular/core";
 import { HeroService } from "../hero.service";
 import { of } from "rxjs";
 import { Hero } from "../hero";
+import { By } from "@angular/platform-browser";
 
 describe('HeroesComponent (shallow tests)', () => {
     let fixture: ComponentFixture<HeroesComponent>;
@@ -44,5 +45,13 @@ describe('HeroesComponent (shallow tests)', () => {
         fixture.detectChanges(); // causes ngOnInit to fire
 
         expect(fixture.componentInstance.heroes.length).toBe(3);
+    });
+
+    it('should create one li for each hero', () => {
+        mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+        fixture.detectChanges(); // causes ngOnInit to fire
+
+        expect(fixture.debugElement.queryAll(By.css('li')).length).toBe(3);
     });
 });
